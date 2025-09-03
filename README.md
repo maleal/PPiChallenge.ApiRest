@@ -27,8 +27,9 @@ La solución respeta los principios de Arquitectura Limpia, separando responsabi
       AuthController.cs Expone los endpoints relacionados con autenticación y cuentas:
       Login → genera un JWT válido si las credenciales son correctas.
       RegistrarCuenta → registra un nuevo usuario en la base de datos.
-      ProbarToken → endpoint protegido con [Authorize] para verificar que el JWT funciona.
-      OrdenController.cs
+      ProbarToken → endpoint protegido con [Authorize] para verificar que el JWT funciona. Nota: Para proteger todos los Endpoint solo se necesita agregar [Authorize]
+      y estaran protegidos.
+      OrdenController.cs Expone endPoints para las operaciones CRUD solicitadas por el Challenge. (Nota: No estan protegidas con [Authorize] por ahora.)
     Middlewares
       ExceptionMiddleware.cs
       Middleware centralizado para capturar excepciones. Convierte errores en respuestas HTTP coherentes (401, 403, 404, 500, etc.), con   logging adecuado.
