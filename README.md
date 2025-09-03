@@ -19,6 +19,9 @@ Solución .Net 8 Web Api Rest, en arquitectura Limpia, desarrollada por Mario Le
    
 # Esquema de la Web API – Gestión de Órdenes de Inversión -
 La solución respeta los principios de Arquitectura Limpia, separando responsabilidades en distintas capas:
+# PPiChallenge.UnitTestWithMSTestProject
+    (comienzo enumerando este proyecto porque es un Opcional que me parecio importante hacerlo)
+    Proyecto de UnitTest con MSTest, con los test necesarios para validar la creacion de las Ordenes, con los calculos pedidos por el challenge para diferentes tipos de Activos      financieros.
 # PPiChallenge.Api
     Controllers
       AuthController.cs Expone los endpoints relacionados con autenticación y cuentas:
