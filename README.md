@@ -21,7 +21,8 @@ La solución respeta los principios de Arquitectura Limpia, separando responsabi
       Responsabilidad: Contiene lógica y contratos de negocio independientes de cualquier infraestructura externa.
       DTOs, Entidades y las Interfaces para el patron Repository con UnitOfWork.
 # PPiChallenge.Infrastructure
-      Responsabilidad: Implementa los servicios y la persistencia de datos (aqui esta el DbContext de Entity Framework).
+      Responsabilidad: Implementa los servicios y la persistencia de datos, 
+      en la carpeta DataBaseIttion esta implementado ApplicationDbContext (el DbContext de Entity Framework).
       Esta capa depende de Core (porque implementa las interfaces definidas allí).
 # General: 
       Tiene implementado Serilog con ILogger<T> con tres nieveles de logs para error debug e informacion
