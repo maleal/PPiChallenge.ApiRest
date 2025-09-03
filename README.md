@@ -32,8 +32,7 @@ La solución respeta los principios de Arquitectura Limpia, separando responsabi
     Program.cs Configura los servicios de la aplicación:
       Inyección de dependencias.
       Configuración de autenticación con JWT (AddAuthentication, AddAuthorization).
-      Configuración de Swagger con soporte para JWT.
-      
+      Proximamente Configuración de Swagger con soporte para JWT para hacer pruebas directamente desde Swagger.
 # PPiChallenge.Core
       Responsabilidad: Contiene lógica y contratos de negocio independientes de cualquier infraestructura externa.
       DTOs, Entidades y las Interfaces para el patron Repository con UnitOfWork.
