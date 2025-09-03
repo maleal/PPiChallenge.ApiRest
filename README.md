@@ -24,5 +24,5 @@ La solución respeta los principios de Arquitectura Limpia, separando responsabi
       Responsabilidad: Implementa los servicios y la persistencia de datos (aqui esta el DbContext de Entity Framework).
       Esta capa depende de Core (porque implementa las interfaces definidas allí).
 # General: 
-      Tiene implementado Serilog con ILogger<T> con tres nieveles implementados para error debug e informacion
-         Tiene tres appSeting para develop, testin y produccion
+      Tiene implementado Serilog con ILogger<T> con tres nieveles de logs para error debug e informacion
+      Tiene tres appSettings.json para develop, testing y produccion.
