@@ -270,7 +270,11 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
                     ActivoFinancieroId = o.ActivoFinancieroId,
                     Cantidad = o.Cantidad,
                     Operacion = o.Operacion,
-                    Estado = o.Estado.ToString()
+                    Estado = o.Estado.ToString(),
+                    Precio = o.Precio,
+                    Comision =  o.Comision,
+                    Impuesto = o.Impuesto,
+                    MontoTotal = o.MontoTotal
                 });
             }
             catch (Exception ex)
