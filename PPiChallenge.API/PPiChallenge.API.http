@@ -1,0 +1,6 @@
+@PPiChallenge.API_HostAddress = http://localhost:5064
+
+GET {{PPiChallenge.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
