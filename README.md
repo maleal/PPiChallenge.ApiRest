@@ -4,18 +4,18 @@ Solución .Net 8 Web Api Rest, en arquitectura Limpia, desarrollada por Mario Le
 # Instalación y Ejecución de la Solución:
     a. Debe configurar el string de Conexión en el appsettings.json adecuado (hay tres: development, testing y producción),
     seteando a Source con el nombre de su host de BD y, si quiere, cambie el nombre de la DB en Catalog.
-b. Abra la PMC y corra los comandos:
+    b. Abra la PMC y corra los comandos:
     Add-Migration <NombreDeLaMigracion>
     y una vez creada la migración:
     Update-Database
-c. En la base de datos verá creadas las tablas y algunas seteadas con datos iniciales
+    c. En la base de datos verá creadas las tablas y algunas seteadas con datos iniciales
    obtenidos desde el PDF del challenge.
-d. Login y autenticación de una cuenta:
+    d. Login y autenticación de una cuenta:
     El controlador AuthController tiene un endpoint de Login, que validará el usuario y password ingresados de la cuenta.
     Si está registrado e ingresó las credenciales correctas, le responderá con un TOKEN JWT para ser usado por el cliente en los siguientes requests.
     Tiene también otro endpoint para crear una cuenta, Y el tercero es para probar un request desde un Postman, por ejemplo,
     que tenga seteado en el Header el token JWT creado con el Login de la cuenta.
-e. En el controlador OrdenController están las operaciones CRUD para las Órdenes.
+    e. En el controlador OrdenController están las operaciones CRUD para las Órdenes.
    Estas se guardarán en la base de datos con los valores calculados según la solicitud del challenge.
    
 # Esquema de la Web API – Gestión de Órdenes de Inversión -
