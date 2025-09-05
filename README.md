@@ -1,22 +1,83 @@
-# PPiChallenge.API
-Solución .Net 8 Web Api Rest, en arquitectura Limpia, desarrollada por Mario Leal Fuentes para Challenge PPi.
+# PPiChallenge.API - .NET 8 Web API
 
-# Instalación y Ejecución de la Solución:
-    a. Debe configurar el string de Conexión en el appsettings.json adecuado (hay tres: development, testing y producción),
+Solución .NET 8 Web API Rest en Arquitectura Limpia, desarrollada por **Mario Leal Fuentes** para Challenge PPi.
+
+## Descripción
+
+Web API para gestión de órdenes de inversión con autenticación JWT segura y arquitectura escalable basada en principios de Clean Architecture.
+
+## Tecnologías Utilizadas
+
+- **.NET 8** - Framework principal
+- **Entity Framework Core 8** - ORM y gestión de base de datos
+- **SQL Server** - Base de datos relacional
+- **JWT** - Autenticación con tokens
+- **BCrypt** - Hashing de contraseñas
+- **Serilog** - Logging estructurado
+- **Swagger/OpenAPI** - Documentación interactiva
+- **MSTest** - Framework de testing
+
+## Configuracion Base de Datos:
+- ** Debe configurar el string de Conexión en el appsettings.json adecuado (hay tres: development, testing y producción),
     seteando a Source con el nombre de su host de BD y, si quiere, cambie el nombre de la DB en Catalog.
-    b. Abra la PMC y corra los comandos:
+- ** Abra la PMC y corra los comandos:
     Add-Migration <NombreDeLaMigracion>
     y una vez creada la migración:
     Update-Database
-    c. En la base de datos verá creadas las tablas y algunas seteadas con datos iniciales obtenidos desde el PDF del challenge.
-    d. Login y autenticación de una cuenta:
-    El controlador AuthController tiene un endpoint de Login, que validará el usuario y password ingresados de la cuenta.
-    Si está registrado e ingresó las credenciales correctas, le responderá con un TOKEN JWT para ser usado por el cliente en los siguientes requests.
-    Tiene también otro endpoint para crear una cuenta, Y el tercero es para probar un request desde un Postman, por ejemplo,
-    que tenga seteado en el Header el token JWT creado con el Login de la cuenta.
-    e. En el controlador OrdenController están las operaciones CRUD para las Órdenes.
-    Estas se guardarán en la base de datos con los valores calculados según la solicitud del challenge.
-   
+- ** En la base de datos verá creadas las tablas y algunas seteadas con datos iniciales obtenidos desde el PDF del challenge.
+
+# Seguridad en la Web Api:
+##  Autenticación JWT
+
+### a. Implementación de Login Seguro
+He implementado un sistema de autenticación JWT robusto con:
+
+- **Firma HMAC-SHA256** para tokens JWT
+- **Clave secreta de 256+ bits** configurada en `appsettings.json`
+- **BCrypt** con salting automático para hashing de contraseñas
+- **Validación completa** de:
+  -  Issuer (Emisor)
+  -  Audience (Destinatario) 
+  -  Lifetime (Tiempo de vida)
+  -  SigningKey (Clave de firma)
+
+**Nota:** La entidad `Cuenta` contiene los campos de usuario y password hasheado.
+
+### b. Endpoint Protegido con JWT
+- **Validación de credenciales** contra base de datos
+- **Verificación de cuenta activa** antes de generar token
+- **Generación de JWT** con claims personalizados
+- **Protección de endpoints** con `[Authorize]`
+
+#### Ejemplo de flujo:
+** Ver en Swagger
+
+## 🎯 Endpoints Principales
+
+### 🔐 AuthController
+
+| Método | Endpoint | Descripción | Autenticación |
+|--------|----------|-------------|---------------|
+| `POST` | `/api/auth/login` | Autenticación y generación de JWT | ❌ No requiere |
+| `POST` | `/api/auth/registrar` | Registro de nuevas cuentas | ❌ No requiere |
+| `GET` | `/api/auth/probar-token` | Verificación de token válido | ✅ Requiere JWT |
+
+#### 📝 Ejemplo de Login
+** Ver en Swagger
+
+### 💰 OrdenController
+
+| Método | Endpoint | Descripción | Autenticación |
+|--------|----------|-------------|---------------|
+| `GET` | `/api/orden` | Obtener todas las órdenes del sistema | ✅ Requiere JWT |
+| `POST` | `/api/orden` | Crear nueva orden para activo financiero | ✅ Requiere JWT |
+| `GET` | `/api/orden/porCuenta/{cuentaId}` | Obtener órdenes por ID de cuenta | ✅ Requiere JWT |
+| `PATCH` | `/api/orden/{ordenId}/estado` | Actualizar estado de una orden | ✅ Requiere JWT |
+| `DELETE` | `/api/orden/{ordenId}` | Eliminar una orden existente | ✅ Requiere JWT |
+
+#### 📝 Ejemplo de Crear Orden
+VerSWagger
+
 # Esquema de la Web API – Gestión de Órdenes de Inversión -
 La solución respeta los principios de Arquitectura Limpia, separando responsabilidades en distintas capas:
 # PPiChallenge.UnitTestWithMSTestProject
