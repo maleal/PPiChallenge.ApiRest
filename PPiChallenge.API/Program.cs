@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using PPiChallenge.API.Middlewares;
 using PPiChallenge.Core.Interfaces;
 using PPiChallenge.Core.Interfaces.Repository;
@@ -70,6 +71,32 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
+
+    //Para usar el JWT desde aqui (Swagger) en las pruebas del Token
+    //usando el boton Authorize verde arriba a la derecha.
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
 });
 
 
@@ -92,7 +119,10 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
         ),
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+
+        RequireExpirationTime = true,
+        ValidateActor = false
     };
 });
 builder.Services.AddAuthentication();
@@ -109,10 +139,20 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
+//para la consola, sacar despues
+app.Use(async (context, next) =>
+{
+    var authHeader = context.Request.Headers["Authorization"];
+    Console.WriteLine($"$[DEBUG] Authorization Header: {authHeader}");
+    Console.WriteLine($"$[DEBUG] Path: {context.Request.Path}");
+    await next();
+    Console.WriteLine($"[DEBUG] Response Status: {context.Response.StatusCode}");
+});
+
 //Registro el middleware de las excepcione !!
 app.UseMiddleware<ExceptionMiddleware>();
 
-// Configure the HTTP request pipeline.
+//Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -121,6 +161,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
