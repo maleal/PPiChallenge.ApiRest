@@ -43,7 +43,8 @@ namespace PPiChallenge.Core.Entities
         [RegularExpression("^[CV]$", ErrorMessage = "Operaciones permitidas 'C'=Compra o 'V'=Venta")]
         public string Operacion { get; set; }
 
-        // Estado de la orden, inicializada a "EnProceso" segun requerimiento
+        //Descripcion Estado de la orden, inicializada a "EnProceso" segun requerimiento
+        //NOTA: No agregare aqui a EstadoOrdenId ni la propiedad de navegacion porque el REquerimiento dice que es OPCIONAL el 'int Estado'
         [Required]
         public EstadoDeOrden Estado { get; set; } = EstadoDeOrden.EnProceso;
 

@@ -267,7 +267,7 @@ namespace PPiChallenge.Infrastructure.Migrations
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<int>("Estado")
+                    b.Property<int>("EstadoOrdenId")
                         .HasColumnType("int");
 
                     b.Property<int>("IdCuenta")

@@ -15,6 +15,7 @@ namespace PPiChallenge.Core.Interfaces.Services
         Task<OrdenDto> ObtenerOrdenPorIdAsync(int id);
         Task<IEnumerable<OrdenDto>> ObtenerOrdenesPorCuentaAsync(int cuentaId);
         Task<OrdenDto> ActualizarEstadoOrdenAsync(int ordenId, EstadoDeOrden nuevoEstado);
+        Task<OrdenDto> ActualizarEstadoOrdenAsync(int ordenId, string descripcionEstado);
         Task<bool> EliminarOrdenAsync(int ordenId);
     }
 }

@@ -38,8 +38,6 @@ namespace PPiChallenge.Infrastructure.Interfaces.Repository
                 {
                     return result.IsEnabled;
                 }
-                 
-
             }
             catch (Exception ex)
             {

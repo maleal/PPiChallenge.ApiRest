@@ -14,7 +14,7 @@ namespace PPiChallenge.Core.DTOs
         public int ActivoFinancieroId { get; set; }
         public int Cantidad { get; set; }
         public string Operacion { get; set; }
-        public string Estado { get; set; }
+        public string DescripcionEstado { get; set; }
         
         //Valores OUTPUT que calcularemos con la API
         public decimal Precio { get; set; }

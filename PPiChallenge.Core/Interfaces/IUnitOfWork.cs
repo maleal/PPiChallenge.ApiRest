@@ -18,6 +18,7 @@ namespace PPiChallenge.Core.Interfaces
         IActivoFinancieroRepository ActivosFinancieros { get; }
         ICuentaRepository Cuentas { get; }
         IOrdenRepository Ordenes { get; }
+        IEstadoOrdenRepository EstadosOrden { get; }
 
         Task<int> SaveChangesAsync();
         //Task<int> CompleteAsync();

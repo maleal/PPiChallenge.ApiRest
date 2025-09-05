@@ -117,7 +117,7 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
                     ActivoFinancieroId = orden.ActivoFinancieroId,
                     Cantidad = orden.Cantidad,
                     Operacion = orden.Operacion,
-                    Estado = orden.Estado.ToString(),
+                    DescripcionEstado = orden.Estado.ToString(),
                     Precio = precioRx,
                     MontoTotal = orden.MontoTotal,
                     Comision = orden.Comision,
@@ -142,7 +142,7 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
 
                 // LogDebug con las órdenes encontradas
                 var resumenOrdenes = ordenes
-                    .Select(o => $"Id={o.IdOrden}, Estado={o.Estado}, Cantidad={o.Cantidad}, Operacion={o.Operacion}")
+                    .Select(o => $"Id={o.IdOrden}, DescripcionEstado={o.Estado}, Cantidad={o.Cantidad}, Operacion={o.Operacion}")
                     .ToList();
                 _logger.LogDebug("Órdenes encontradas para cuentaId={CuentaId}: {@ResumenOrdenes}", cuentaId, resumenOrdenes);
 
@@ -153,7 +153,7 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
                     ActivoFinancieroId = o.ActivoFinancieroId,
                     Cantidad = o.Cantidad,
                     Operacion = o.Operacion.ToString(),
-                    Estado = o.Estado.ToString()
+                    DescripcionEstado = o.Estado.ToString()
                 });
             }
             catch (Exception ex)
@@ -180,7 +180,7 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
                 ActivoFinancieroId = orden.ActivoFinancieroId,
                 Cantidad = orden.Cantidad,
                 Operacion = orden.Operacion,
-                Estado = orden.Estado.ToString()
+                DescripcionEstado = orden.Estado.ToString()
             };
         }
 
@@ -239,7 +239,7 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
                     ActivoFinancieroId = orden.ActivoFinancieroId,
                     Cantidad = orden.Cantidad,
                     Operacion = orden.Operacion.ToString(),
-                    Estado = orden.Estado.ToString()
+                    DescripcionEstado = orden.Estado.ToString()
                 };
             }
             catch (Exception ex)
@@ -259,7 +259,7 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
 
                 // Para LogDebug!! ordenes encontradas
                 var resumenOrdenes = ordenes
-                    .Select(o => $"Id={o.IdOrden}, CuentaId={o.IdCuenta}, Estado={o.Estado}, Cantidad={o.Cantidad}, Operacion={o.Operacion}")
+                    .Select(o => $"Id={o.IdOrden}, CuentaId={o.IdCuenta}, DescripcionEstado={o.Estado}, Cantidad={o.Cantidad}, Operacion={o.Operacion}")
                     .ToList();
                 _logger.LogDebug($"Ordenes encontradas:{@resumenOrdenes}");
 
@@ -270,7 +270,7 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
                     ActivoFinancieroId = o.ActivoFinancieroId,
                     Cantidad = o.Cantidad,
                     Operacion = o.Operacion,
-                    Estado = o.Estado.ToString(),
+                    DescripcionEstado = o.Estado.ToString(),
                     Precio = o.Precio,
                     Comision =  o.Comision,
                     Impuesto = o.Impuesto,
@@ -283,6 +283,53 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
                 throw;
             }
 
+        }
+
+        public async Task<OrdenDto> ActualizarEstadoOrdenAsync(int ordenId, string descripcionEstado)
+        {
+            try {
+                _logger.LogInformation($"Actualizar DescripcionEstado Orden ya creadas");
+                _logger.LogDebug($"Actualizar DescripcionEstado Orden ya creadas");
+
+                var orden = await _unitOfWork.Ordenes.GetByIdAsync(ordenId);
+                if (orden == null)
+                {
+                    _logger.LogError("Orden Id={OrdenId} no encontrada", ordenId);
+                    throw new KeyNotFoundException($"Orden con Id {ordenId} no encontrada.");
+                }
+
+                var estado = await _unitOfWork.EstadosOrden.GetByDescripcionEstadoAsync(descripcionEstado);
+                if (estado == null)
+                {
+                    _logger.LogError($"DescripcionEstado de Orden con descripcion={descripcionEstado} no encontrado");
+                    throw new KeyNotFoundException($"DescripcionEstado de Orden con descripcion {descripcionEstado} no encontrado.");
+                }
+
+                orden.Estado = (EstadoDeOrden)estado.Id;
+                _unitOfWork.Ordenes.UpdateAsync(orden);
+                await _unitOfWork.SaveChangesAsync();
+
+                //MAPEO EN LINEA (ver de usar un automaper)
+                return new OrdenDto
+                {
+                    Id = orden.IdOrden,
+                    CuentaId = orden.IdCuenta,
+                    ActivoFinancieroId = orden.ActivoFinancieroId,
+                    Cantidad = orden.Cantidad,
+                    Operacion = orden.Operacion,
+                    DescripcionEstado = estado.DescripcionEstado,  //Usamos la descripción del estado
+                    Precio = orden.Precio,
+                    Comision = orden.Comision,
+                    Impuesto = orden.Impuesto,
+                    MontoTotal = orden.MontoTotal
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error ActualizarEstadoOrdenAsync");
+                throw;
+            }
+            //throw new NotImplementedException();
         }
     }
 }

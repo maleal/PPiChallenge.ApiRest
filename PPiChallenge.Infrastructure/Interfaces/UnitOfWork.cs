@@ -18,6 +18,8 @@ namespace PPiChallenge.Infrastructure.Interfaces
         public IActivoFinancieroRepository ActivosFinancieros { get; }
         public ICuentaRepository Cuentas { get; }
         public IOrdenRepository Ordenes { get; }
+        public IEstadoOrdenRepository EstadosOrden { get; }
+
         private readonly ILogger<UnitOfWork> _logger;
         private readonly ApplicationDbContext _dbContext;
         
@@ -27,12 +29,14 @@ namespace PPiChallenge.Infrastructure.Interfaces
                 IActivoFinancieroRepository activoRepository,
                 ICuentaRepository cuentaRepository,
                 IOrdenRepository ordenRepository,
+                IEstadoOrdenRepository estadoOrdenRepository,
                 ILogger<UnitOfWork> logger)
         {
             _dbContext = dbContext;
             ActivosFinancieros = activoRepository;
             Cuentas = cuentaRepository;
             Ordenes = ordenRepository;
+            EstadosOrden = estadoOrdenRepository;
             _logger = logger;// = logger.CreateLogger("Logs");
         }
         #endregion

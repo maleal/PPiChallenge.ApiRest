@@ -122,7 +122,7 @@ namespace PPiChallenge.API.Controllers
         /// <param name="ordenId">Id de la orden a actualizar.</param>
         /// <param name="nuevoEstado">Nuevo estado de la orden.</param>
         /// <returns>Orden actualizada.</returns>
-        [HttpPatch("{ordenId}/estado")]
+        [HttpPatch("{ordenId}/estado/enum")]
         [ProducesResponseType(typeof(OrdenDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<OrdenDto>> ActualizarEstadoOrden(int ordenId, [FromBody] EstadoDeOrden nuevoEstado)
@@ -131,6 +131,29 @@ namespace PPiChallenge.API.Controllers
             return Ok(ordenActualizada);
         }
 
+        /// PATCH: api/orden/{ordenId}/estado
+        /// <summary>
+        /// Actualiza el estado de una orden (RECIBE DESCRIPCION ESTADO).
+        /// </summary>
+        /// <remarks>
+        /// Valores posibles para el estado: "EnProceso", "Ejecutada", "Cancelada"
+        /// Ejemplo de request:
+        ///
+        ///     PATCH /api/orden/1/estado
+        ///     "Ejecutada"
+        ///
+        /// </remarks>
+        /// <param name="ordenId">Id de la orden a actualizar.</param>
+        /// <param name="descripcionEstado">Nuevo estado de la orden.</param>
+        /// <returns>Orden actualizada.</returns>
+        [HttpPatch("{ordenId}/estado/descripcion")]
+        [ProducesResponseType(typeof(OrdenDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<OrdenDto>> ActualizarEstadoOrdenByDescripicon(int ordenId, [FromBody] string descripcionEstado)
+        {
+            var ordenActualizada = await _ordenService.ActualizarEstadoOrdenAsync(ordenId, descripcionEstado);
+            return Ok(ordenActualizada);
+        }
 
         /// <summary>
         /// Elimina una orden existente.

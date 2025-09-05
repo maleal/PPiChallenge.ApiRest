@@ -39,6 +39,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
 builder.Services.AddScoped<IOrdenRepository, OrdenRepository>();
 builder.Services.AddScoped<IActivoFinancieroRepository, ActivoFinancieroRepository>();
+builder.Services.AddScoped<IEstadoOrdenRepository, EstadoOrdenRepository>();
 
 #endregion ENTITY FRAMEWORK
 /* Logs Levels
