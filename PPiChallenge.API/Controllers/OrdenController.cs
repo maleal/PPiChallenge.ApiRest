@@ -86,6 +86,7 @@ namespace PPiChallenge.API.Controllers
         /// <response code="400">Datos inválidos. Puede deberse a operación no permitida o falta de precio unitario en bonos o FCI.</response>
         /// <response code="404">Cuenta o activo financiero no encontrado.</response>
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(typeof(OrdenDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -97,12 +98,13 @@ namespace PPiChallenge.API.Controllers
 
         /// GET: api/orden/porCuenta/{cuentaId}
         /// <summary>
-        /// Obtiene todas las órdenes de una cuenta.
+        /// Obtiene las Oredenes por el Id de la Cuenta.
         /// </summary>
         /// <param name="cuentaId">Id de la cuenta.</param>
         /// <returns>Lista de órdenes de la cuenta.</returns>
         [HttpGet("porCuenta/{cuentaId}")]
         [ProducesResponseType(typeof(IEnumerable<OrdenDto>), StatusCodes.Status200OK)]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<OrdenDto>>> ObtenerOrdenesPorCuenta(int cuentaId)
         {
             var ordenes = await _ordenService.ObtenerOrdenesPorCuentaAsync(cuentaId);
@@ -127,6 +129,7 @@ namespace PPiChallenge.API.Controllers
         [HttpPatch("{ordenId}/estado/enum")]
         [ProducesResponseType(typeof(OrdenDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<ActionResult<OrdenDto>> ActualizarEstadoOrden(int ordenId, [FromBody] EstadoDeOrden nuevoEstado)
         {
             var ordenActualizada = await _ordenService.ActualizarEstadoOrdenAsync(ordenId, nuevoEstado);
@@ -151,6 +154,7 @@ namespace PPiChallenge.API.Controllers
         [HttpPatch("{ordenId}/estado/descripcion")]
         [ProducesResponseType(typeof(OrdenDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<ActionResult<OrdenDto>> ActualizarEstadoOrdenByDescripicon(int ordenId, [FromBody] string descripcionEstado)
         {
             var ordenActualizada = await _ordenService.ActualizarEstadoOrdenAsync(ordenId, descripcionEstado);
@@ -165,6 +169,7 @@ namespace PPiChallenge.API.Controllers
         [HttpDelete("{ordenId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public async Task<ActionResult> EliminarOrden(int ordenId)
         {
             var eliminado = await _ordenService.EliminarOrdenAsync(ordenId);
