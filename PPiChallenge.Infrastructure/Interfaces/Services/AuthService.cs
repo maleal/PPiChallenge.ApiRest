@@ -70,10 +70,11 @@ namespace PPiChallenge.Infrastructure.Interfaces.Services
                 //Crear claims
                 var claims = new[]
                 {
-                new Claim(JwtRegisteredClaimNames.Sub, cuenta.Usuario),
-                new Claim("idCuenta", cuenta.IdCuenta.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+                    new Claim(ClaimTypes.Name, cuenta.Usuario),
+                    new Claim(JwtRegisteredClaimNames.Sub, cuenta.Usuario),
+                    new Claim("idCuenta", cuenta.IdCuenta.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
 
                 //Generar clave
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));

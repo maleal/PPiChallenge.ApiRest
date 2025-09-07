@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PPiChallenge.Core.DTOs;
 using PPiChallenge.Core.Entities;
@@ -24,6 +25,7 @@ namespace PPiChallenge.API.Controllers
         /// </summary>
         /// <returns>Lista de todas las órdenes.</returns>
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(typeof(IEnumerable<OrdenDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<OrdenDto>>> ObtenerTodasOrdenes()
         {
