@@ -4,7 +4,7 @@ Solución .NET 8 Web API Rest en Arquitectura Limpia, desarrollada por **Mario L
 
 ## Descripción
 
-Web API para gestión de órdenes de inversión con autenticación JWT segura y arquitectura escalable basada en principios de Clean Architecture.
+Web API para gestión de órdenes de inversión con autenticación JWT segura y arquitectura escalable basada en principios de Arquitectura Limpia.
 
 ## Tecnologías Utilizadas
 
@@ -15,7 +15,7 @@ Web API para gestión de órdenes de inversión con autenticación JWT segura y 
 - **BCrypt** - Hashing de contraseñas
 - **Serilog** - Logging estructurado
 - **Swagger/OpenAPI** - Documentación interactiva
-- **MSTest** - Framework de testing
+- **MSTest** - Framework de testing Unitarios (comprobar las operacions esenciales del Challenge)
 
 ## Configuracion Base de Datos:
 - ** Debe configurar el string de Conexión en el appsettings.json adecuado (hay tres: development, testing y producción),
@@ -30,7 +30,7 @@ Web API para gestión de órdenes de inversión con autenticación JWT segura y 
 ##  Autenticación JWT
 
 ### a. Implementación de Login Seguro
-He implementado un sistema de autenticación JWT robusto con:
+He implementado un sistema de autenticación JWT con:
 
 - **Firma HMAC-SHA256** para tokens JWT
 - **Clave secreta de 256+ bits** configurada en `appsettings.json`
